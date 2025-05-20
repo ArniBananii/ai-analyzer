@@ -1,11 +1,13 @@
-import FastAPI, Request
-from openai import OpenAI
+import json
+from fastapi import FastAPI, Request 
 from dotenv import load_dotenv
 import httpx
 import os
-import json
+from ai_client import ask_openai
 
-from app.ai_client import ask_openai
+
+load_dotenv()
+print(os.environ)
 
 app = FastAPI()
 
@@ -15,7 +17,8 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 async def analyze(request: Request):
     try:
         data = await request.json()
-        ai_summary = await ask_openai(data)
+        print("Received data:", data)
+        ai_summary = ask_openai(json.dumps(data, indent=2))
         await send_to_discord(ai_summary)
         return {"message": "Analysis sent to Discord"}
     except Exception as e:

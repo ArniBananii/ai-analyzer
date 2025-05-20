@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-analyzer
+  namespace: vuln-benchmark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-analyzer
+  template:
+    metadata:
+      labels:
+        app: ai-analyzer
+    spec:
+      containers:
+        - name: ai-analyzer
+          image: registry.digitalocean.com/devsecopscontainer/ai-analyzer:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ai-analyzer-secrets
+                  key: discord_webhook
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ai-analyzer-secrets
+                  key: openai_key
