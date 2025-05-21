@@ -25,5 +25,5 @@ jobs:
       - name: Remove old images from Container Registry
         uses: ripplr-io/docr-image-remove@v1
         with:
-          image_repository: devsecopscontainer/ai-analyzer
+          image_repository: ai-analyzer
           buffer_size: 5
