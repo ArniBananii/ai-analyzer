@@ -21,3 +21,9 @@ jobs:
         uses: ripplr-io/docr-docker-publish@v1
         with:
           image_path: devsecopscontainer/ai-analyzer
+
+      - name: Remove old images from Container Registry
+        uses: ripplr-io/docr-image-remove@v1
+        with:
+          image_repository: devsecopscontainer/ai-analyzer
+          buffer_size: 5
